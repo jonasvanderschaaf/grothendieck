@@ -2,9 +2,9 @@ import Mathlib.AlgebraicGeometry.Scheme
 import Mathlib.AlgebraicGeometry.Spec
 import Mathlib.AlgebraicGeometry.Stalks
 import Mathlib.CategoryTheory.MorphismProperty
-
+import Mathlib.RingTheory.LocalProperties
 import Mathlib.Topology.Maps
-
+universe v u
 open CategoryTheory
 open AlgebraicGeometry
 open Topology
@@ -54,6 +54,8 @@ theorem iso_is_closed_immersion {X Y : Scheme} {f: X ⟶ Y} [hf: IsIso f] : Sche
 example {X : Scheme} : Scheme.IsClosedImmersion (𝟙 X) := by
   apply iso_is_closed_immersion
 
+variable (R : CommRingCat) (M : Submonoid R) 
+
 theorem isClosedImmersion_respectsIso :
   MorphismProperty.RespectsIso @Scheme.IsClosedImmersion := by
     constructor <;> intro X Y Z e f hf <;> apply isClosedImmersion_stableUnderComposition
@@ -63,5 +65,43 @@ theorem isClosedImmersion_respectsIso :
     . assumption
     assumption
     exact iso_is_closed_immersion
+
+lemma surjective_localRingHom_of_surjective {R S : Type u} 
+    [CommRing R] [CommRing S] (f : R →+* S) 
+    (h : Function.Surjective f) (P : Ideal S) [P.IsPrime] : 
+    Function.Surjective (Localization.localRingHom (P.comap f) P f rfl) :=
+  @localizationPreserves_surjective R S _ _ f ((P.comap f).primeCompl) 
+    (Localization.AtPrime (P.comap f)) (Localization.AtPrime P) _ _ _ _ _ 
+    ((Submonoid.map_comap_eq_of_surjective h P.primeCompl).symm ▸ Localization.isLocalization) h
+  
+lemma spec_of_surjective_is_closed_immersion {R S : CommRingCat} (f : R ⟶ S) 
+  (h : Function.Surjective f)
+  : Scheme.IsClosedImmersion (Scheme.specMap (CommRingCat.ofHom f)) := by
+  constructor
+
+  . apply PrimeSpectrum.closedEmbedding_comap_of_surjective
+    exact h
+
+  . intro x
+    erw [←localRingHom_comp_stalkIso, CommRingCat.coe_comp, CommRingCat.coe_comp]
+    show Function.Surjective (_ ∘ _)
+    apply Function.Surjective.comp
+    apply Function.Surjective.comp
+
+    . let stalk_iso := (StructureSheaf.stalkIso S x).inv
+      apply @And.right (Function.Injective stalk_iso) _
+      apply ConcreteCategory.bijective_of_isIso
+
+    . exact surjective_localRingHom_of_surjective f h x.asIdeal
+
+    . let stalk_iso := (StructureSheaf.stalkIso ((CommRingCat.of R))
+        ((PrimeSpectrum.comap (CommRingCat.ofHom f)) x)).hom
+      apply @And.right (Function.Injective stalk_iso) _
+      apply ConcreteCategory.bijective_of_isIso
+
+lemma spec_of_mk_is_closed_immersion {R : CommRingCat.{u}} (I : Ideal R) :
+  Scheme.IsClosedImmersion (Scheme.specMap (CommRingCat.ofHom (Ideal.Quotient.mk I))) :=
+spec_of_surjective_is_closed_immersion (CommRingCat.ofHom (Ideal.Quotient.mk I))
+  Ideal.Quotient.mk_surjective
 
 end AlgebraicGeometry
