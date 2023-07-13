@@ -39,7 +39,8 @@ theorem isClosedImmersion_stableUnderComposition :
       have hg_surj_fx := hg_surj (f.val.base x)
       exact hf_surj_x.comp hg_surj_fx
 
-theorem iso_is_closed_immersion {X Y : Scheme} {f: X ⟶ Y} [hf: IsIso f] : Scheme.IsClosedImmersion f := by
+theorem iso_is_closed_immersion {X Y : Scheme} {f: X ⟶ Y} [hf: IsIso f] : 
+    Scheme.IsClosedImmersion f := by
   constructor
   . have := PresheafedSpace.base_isIso_of_iso f.val
     let f_top_iso := TopCat.homeoOfIso (asIso f.val.base)
