@@ -1,0 +1,134 @@
+\documentclass{beamer}
+
+\usetheme{metropolis}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd, xcolor}
+\usepackage{nicefrac}
+\usepackage[parfill]{parskip}
+\usepackage{float}
+\usepackage{cleveref}
+\usepackage{svg}
+\usepackage{tikz-cd}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\A}{\mathbb{A}}
+\newcommand{\proj}{\mathbb{P}}
+\newcommand{\sheaf}{\mathcal{O}}
+\newcommand{\FF}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+
+\newcommand{\zproj}{Z_{\textnormal{proj}}}
+
+\newcommand{\maxid}{\mathfrak{m}}
+\newcommand{\primeid}{\mathfrak{p}}
+\newcommand{\primeidd}{\mathfrak{q}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{order}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\matrices}{Mat}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\colim}{colim}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\schemes}{{\bf Sch}}
+\newcommand{\aff}{{\bf Aff}}
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\DeclareMathOperator{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\Nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\rad}{Rad}
+\DeclareMathOperator{\divisor}{div}
+\DeclareMathOperator{\Pic}{Pic}
+\DeclareMathOperator{\spec}{Spec}
+\DeclareMathOperator{\supp}{Supp}
+\newcommand{\ideal}{\triangleleft}
+\newcommand{\ff}{\mathcal{K}}
+
+\newtheorem{proposition}{Proposition}
+
+\title{Closed immersions of schemes in Lean}
+\author{Amelia Livingston \and Torger Olson \and Wim Nijgh \and Jonas van der Schaaf}
+\date{July 14, 2023}
+
+\begin{document}
+\maketitle
+
+\section{Why is algebraic geometry hard?}
+
+\begin{frame}
+    \frametitle{Spectra of rings}
+
+    \begin{itemize}
+        \item Given a commutative ring \(R\) we define
+              \[
+                  \spec R=\setwith{\primeid\ideal R}{\textnormal{\(\primeid\) prime}}
+              \]
+        \item This can be given a topology with a basis of closeds:
+              \[
+                  Z_{f}=\setwith{\primeid\ideal R}{f\in\primeid}
+              \]
+        \item We can define ``functions'' on each basic open \(D_{f}=\spec
+              R\setminus Z_{f}\)
+              \[
+                  \Gamma(D_{f},\sheaf_{\spec R})=R\left[\frac{1}{f}\right]
+              \]
+        \item A scheme is a topological space with functions on each open which
+              locally looks like this
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Closed immersions}
+
+    \begin{itemize}
+        \item We have a correspondence:
+              \[
+                  \spec R/I\simeq\setwith{\primeid\in\spec R}{I\subseteq\primeid}\subseteq\spec R
+              \]
+
+        \item This induces a closed embedding of topological spaces
+
+        \item It is surjective on the functions: \(R\twoheadrightarrow R/I\) is
+              surjective
+
+        \item Morphisms with this property are called closed immersions
+    \end{itemize}
+
+\end{frame}
+
+\section{Why is Lean hard?}
+\end{document}
