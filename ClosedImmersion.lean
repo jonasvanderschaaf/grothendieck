@@ -66,6 +66,9 @@ theorem isClosedImmersion_respectsIso :
     assumption
     exact iso_is_closed_immersion
 
+/- A surjective hom `R →+* S` induces a surjective hom `R_{f⁻¹(P)} →+* S_P`. 
+This is just an application of `localizationPreserves_surjective`, modulo the fact that
+`IsLocalization f((f⁻¹(P))ᶜ) R_P`, since `f((f⁻¹(P))ᶜ)` is just `Pᶜ`... -/
 lemma surjective_localRingHom_of_surjective {R S : Type u} 
     [CommRing R] [CommRing S] (f : R →+* S) 
     (h : Function.Surjective f) (P : Ideal S) [P.IsPrime] : 
