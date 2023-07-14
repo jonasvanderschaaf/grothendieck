@@ -45,6 +45,7 @@ example : sats_uniq (𝟙 X) := by
   ext U x
   simp
   sorry
+  sorry
 
 
 -- Valuative criterion for separatedness (01KY)
