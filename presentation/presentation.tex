@@ -112,17 +112,18 @@
               \[
                   \spec R=\setwith{\primeid\ideal R}{\textnormal{\(\primeid\) prime}}
               \]
-        \item This can be given a topology with a basis of closeds:
+        \item This can be given a topology with the closed sets given by:
               \[
-                  Z_{f}=\setwith{\primeid\ideal R}{f\in\primeid}
+                  V(I)=\setwith{I\subseteq \primeid}{\primeid \in \spec R},
               \]
-        \item We can define ``functions'' on each basic open \(D_{f}=\spec
-              R\setminus Z_{f}\)
+        where $I\ideal R$ is an ideal. 
+        \item We can define ``functions'' (sheaf) on each basic open \(D_{f}=\spec
+              R\setminus V(f)\)
               \[
                   \Gamma(D_{f},\sheaf_{\spec R})=R\left[\frac{1}{f}\right]
               \]
-        \item A scheme is a topological space with functions on each open which
-              locally looks like this
+        \item A scheme is a topological space with functions on each open, which
+              locally looks like $\spec R$
     \end{itemize}
 
 \end{frame}
