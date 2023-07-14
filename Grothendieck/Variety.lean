@@ -49,7 +49,20 @@ class Scheme.Hom.LocallyOfFiniteType (f : X ⟶ Y) : Prop where
 
 class Scheme.Hom.FiniteType (f : X ⟶ Y) extends LocallyOfFiniteType f, QuasiCompact f
 
-class Scheme.IsVariety (k : CommRingCat) [Field k] (X : Over (specObj k)) extends 
-  IsReduced X.left, Hom.IsSeparated X.hom, Hom.FiniteType X.hom
+class Scheme.IsVariety {k : CommRingCat} [Field k] 
+    (X : Over (specObj k)) 
+  extends IsReduced X.left, Hom.IsSeparated X.hom, Hom.FiniteType X.hom
+
+class Scheme.IsIntegralVariety {k : CommRingCat} [Field k] 
+    (X : Over (specObj k))
+  extends IsIntegral X.left, Hom.IsSeparated X.hom, Hom.FiniteType X.hom 
+
+instance {k : CommRingCat} [Field k] {X : Over (specObj k)} [IsIntegralVariety X] : 
+  IsVariety X where
+    component_reduced := (@isReducedOfIsIntegral X.left IsIntegralVariety.toIsIntegral).1
+    diag_is_closed_imm := IsIntegralVariety.toIsSeparated.1
+    finiteType_of_affine_subset := IsIntegralVariety.toFiniteType.toLocallyOfFiniteType.1
+    isCompact_preimage := IsIntegralVariety.toFiniteType.toQuasiCompact.1
+
 end AlgebraicGeometry
 
