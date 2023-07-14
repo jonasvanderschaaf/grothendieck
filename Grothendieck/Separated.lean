@@ -20,8 +20,10 @@ noncomputable def pullbackSpecIso :
   ((CommRingCat.pushoutCoconeIsColimit f g).coconePointUniqueUpToIso 
   (colimit.isColimit _) ≪≫ pushoutIsoUnopPullback _ _).op
 
-class Scheme.IsSeparated {X Y : Scheme} (f : X ⟶ Y) : Prop where
+class Scheme.Hom.IsSeparated {X Y : Scheme} (f : X ⟶ Y) : Prop where
   diag_is_closed_imm: Scheme.IsClosedImmersion (pullback.diagonal f)
+
+class Scheme.IsSeparated {X : Scheme} extends Scheme.Hom.IsSeparated (terminal.from X)
 
 end AlgebraicGeometry
 
