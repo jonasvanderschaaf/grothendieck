@@ -11,8 +11,10 @@ open Topology
 
 namespace AlgebraicGeometry
 
--- A closed immersion is a closed immersion of topological spaces which is
--- surjective on stalks. This definition is due to Mumford.
+/- A morphism of schemes `X ⟶ Y` is a closed immersion if the underlying
+   topological map is a closed embedding and the induced stalkmaps are
+   surjective.
+-/
 class Scheme.IsClosedImmersion {X Y : Scheme} (f : X ⟶ Y) : Prop where
   base_closed_emb: ClosedEmbedding f.1.base
   surj_on_stalks: ∀ x : X, Function.Surjective (PresheafedSpace.stalkMap f.1 x) 
@@ -26,8 +28,11 @@ example {X : Scheme} : Scheme.IsClosedImmersion (𝟙 X) := by
     use r
     erw [PresheafedSpace.stalkMap.id]
     rfl
-
-theorem isClosedImmersion_stableUnderComposition :
+/- Suppose we have scheme maps `f : X ⟶ Y` and `g : Y ⟶ Z` which are both
+   closed immersions, then their composition `f ≫ g : X ⟶ Z` should also be a
+   closed immersion.
+-/
+lemma isClosedImmersion_stableUnderComposition :
   MorphismProperty.StableUnderComposition @Scheme.IsClosedImmersion := by
     rintro X Y Z f g ⟨hf_closed, hf_surj⟩ ⟨hg_closed, hg_surj⟩
     constructor
@@ -39,7 +44,9 @@ theorem isClosedImmersion_stableUnderComposition :
       have hg_surj_fx := hg_surj (f.val.base x)
       exact hf_surj_x.comp hg_surj_fx
 
-theorem iso_is_closed_immersion {X Y : Scheme} {f: X ⟶ Y} [hf: IsIso f] : 
+/- Isomorphisms are closed immersions.
+-/
+lemma iso_is_closed_immersion {X Y : Scheme} {f: X ⟶ Y} [hf: IsIso f] : 
     Scheme.IsClosedImmersion f := by
   constructor
   . have := PresheafedSpace.base_isIso_of_iso f.val
@@ -57,7 +64,11 @@ example {X : Scheme} : Scheme.IsClosedImmersion (𝟙 X) := by
 
 variable (R : CommRingCat) (M : Submonoid R) 
 
-theorem isClosedImmersion_respectsIso :
+/- Composition with an iso preserves closed embeddings. This is a direct
+   corollary from `iso_is_closed_immersion` and
+   `isClosedImmersion_stableUnderComposition`.
+-/
+lemma isClosedImmersion_respectsIso :
   MorphismProperty.RespectsIso @Scheme.IsClosedImmersion := by
     constructor <;> intro X Y Z e f hf <;> apply isClosedImmersion_stableUnderComposition
 
@@ -78,6 +89,10 @@ lemma surjective_localRingHom_of_surjective {R S : Type u}
     (Localization.AtPrime (P.comap f)) (Localization.AtPrime P) _ _ _ _ _ 
     ((Submonoid.map_comap_eq_of_surjective h P.primeCompl).symm ▸ Localization.isLocalization) h
   
+/- Given two commutative rings `R S : CommRingCat` and a surjective morphism
+   `f : R ⟶ S`, the induced scheme morphism `specObj S ⟶ specObj R` is a
+   closed immersion.
+-/
 lemma spec_of_surjective_is_closed_immersion {R S : CommRingCat} (f : R ⟶ S) 
   (h : Function.Surjective f)
   : Scheme.IsClosedImmersion (Scheme.specMap (CommRingCat.ofHom f)) := by
